@@ -133,6 +133,7 @@
 		this.multiSelect	= true;
 		this.multiSort		= true;
 		this.markSearchResults	= true;
+		this.inFieldEdit	= false;	// true when INPUT FIELD is visible (is editing) onEditField starts , on INPUT.blur ends
 
 		this.total			= 0;		// server total
 		this.buffered		= 0;		// number of records in the records array
@@ -1634,6 +1635,7 @@
 				.html('<input id="grid_'+ obj.name +'_edit_'+ recid +'_'+ column +'" value="'+ val +'" type="text"  '+
 					'	style="outline: none; '+ addStyle + edit.style +'" field="'+ col.field +'" recid="'+ recid +'" column="'+ column +'" '+ edit.inTag +
 					'>' + edit.outTag);
+			this.inFieldEdit = true;		
 			el.find('input')
 				.w2field(edit.type)
 				.on('blur', function (event) {
@@ -1658,6 +1660,7 @@
 					}
 					// refresh record
 					$(tr).replaceWith(obj.getRecordHTML(index, tr.attr('line')));
+					this.inFieldEdit = false;
 				})
 				.on('keydown', function (event) {
 					var cancel = false;
